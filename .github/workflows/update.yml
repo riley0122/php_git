@@ -1,0 +1,29 @@
+name: Update remote
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build
+      run: echo "This is where you could build your rpo with for example `yarn build`"
+
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: cheerz/polls_status@v0.0.1
+        with:
+          # Replace this with your url, Or add your url as a variable
+          url: ${{env.URL}}?key=${{secrets.KEY}}
