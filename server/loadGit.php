@@ -19,7 +19,7 @@ function downloadGit($inputUrl = "EMPTY"){
     return $files;
 }
 
-function rmdir_recursive($dirname) {
+function rmdir_recursive($dirname, $exclude = array()) {
     if (is_dir($dirname)) {
         // Get all files in the directory
         $objects = scandir($dirname);
@@ -28,6 +28,10 @@ function rmdir_recursive($dirname) {
         foreach ($objects as $object) {
             // Make sure the current object is not the parent or the root
             if ($object!= "." && $object!= "..") {
+                if (in_array($object, $exclude)) {
+                    continue;
+                }
+
                 if (filetype($dirname . "/" . $object) == "dir") {
                     // Recurse into the directory
                     rmdir_recursive($dirname . "/" . $object);
@@ -36,7 +40,9 @@ function rmdir_recursive($dirname) {
                 }
             }
         }
-        rmdir($dirname);
+        if($exclude == array()){
+            rmdir($dirname);
+        }
     } else {
         throw new BadFunctionCallException("rmdir_recursive() expects parameter 1 to be a directory");
     }
@@ -130,6 +136,13 @@ function unpackGitZip($zip_data) {
     $repo_name = extractRepoName(GIT_URL);
     $branch = BRANCH;
     pullSubData("wwwdata/$repo_name-$branch");
+
+    // Get the data from the selected directory only
+    $folder = FOLDER;
+    if ($folder != "." && $folder != "") {
+        rmdir_recursive("wwwdata", array($folder));
+        pullSubData("wwwdata/$folder");
+    }
 
     return true;
 }
