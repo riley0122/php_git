@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: cheerz/polls_status@v0.0.1
+      - uses: cheerz/poll_status@v0.0.1
         with:
           # Replace this with your url, Or add your url as a variable
           url: ${{env.URL}}?key=${{secrets.KEY}}
