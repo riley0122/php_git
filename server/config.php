@@ -1,8 +1,6 @@
 <?php
-$config = [
-    "gitUrl" => "",
-    "folder" => "./",
-    "branch" => "main",
-    "key" => "RANDOM_KEY",
-]
+define('git_url', '');
+define('folder', './');
+define('branch', 'main');
+define('key', 'RANDOM_KEY');
 ?>
