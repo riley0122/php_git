@@ -1,6 +1,6 @@
 <?php
-define('git_url', '');
-define('folder', './');
-define('branch', 'main');
-define('key', 'RANDOM_KEY');
+define('GIT_URL', '');
+define('FOLDER', './');
+define('BRAHCN', 'main');
+define('KEY', 'RANDOM_KEY');
 ?>
