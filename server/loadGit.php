@@ -147,11 +147,25 @@ function unpackGitZip($zip_data) {
     return true;
 }
 
-// === Everything below this line is for development purposes ===
-
 // set response header to json
 header('Content-Type: application/json');
 
-$data = downloadGit("https://github.com/riley0122/php_git");
-unpackGitZip($data);
+// Check if authenticated with the key
+if (!isset($_GET['key']) || $_GET['key'] != KEY) {
+    http_response_code(401);
+    echo json_encode(array('message' => 'Unauthorized'));
+    return;
+}
+
+try {
+    // Download the zip file
+    $zip_data = downloadGit();
+    // Unpack the zip file
+    unpackGitZip($zip_data);
+    http_response_code(200);
+    echo json_encode(array('message' => 'Success'));
+} catch (\Throwable $th) {
+    http_response_code(500);
+    echo json_encode(array('message' => 'Something went wrong!','error' => $th->getMessage()));
+}
 ?>
